@@ -17,8 +17,8 @@ return new class extends Migration
             $table->text('description'); 
             $table->decimal('price', 8, 2); 
             $table->integer('stock'); 
-            $table->unsignedBigInteger('category_id')->nullable(); // Clave foránea a la tabla categories
-            $table->unsignedBigInteger('supplier_id')->nullable();
+            $table->foreignId('category_id')->constrained()->onDelete('cascade'); 
+            $table->foreignId('supplier_id')->constrained()->onDelete('cascade'); 
             $table->timestamps();
         });
     }

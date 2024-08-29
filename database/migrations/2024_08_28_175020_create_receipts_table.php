@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('receipts', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('record_id')->nullable(); 
+            $table->foreignId('record_id')->constrained()->onDelete('cascade'); 
             $table->date('fecha_emision'); 
             $table->decimal('monto', 10, 2);
             $table->timestamps();

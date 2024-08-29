@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('records', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('customer_id')->nullable();
+            $table->foreignId('customer_id')->constrained()->onDelete('cascade'); 
+            $table->foreignId('product_id')->constrained()->onDelete('cascade'); 
             $table->date('purchase_date'); 
             $table->decimal('total', 10, 2); 
             $table->timestamps();
