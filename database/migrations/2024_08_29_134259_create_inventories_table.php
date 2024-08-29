@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('receipts', function (Blueprint $table) {
+        Schema::create('inventories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('record_id')->constrained()->onDelete('cascade'); 
-            $table->date('fecha_emision'); 
-            $table->decimal('monto', 10, 2);
+            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
+            $table->integer('quantity'); 
+            $table->date('update_date'); 
+
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('receipts');
+        Schema::dropIfExists('inventories');
     }
 };
