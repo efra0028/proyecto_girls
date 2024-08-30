@@ -328,6 +328,31 @@ return [
             'url' => 'admin/settings',
             'icon' => 'fas fa-fw fa-user',
         ],
+
+        [
+            'text' => 'profile',
+            'url' => 'admin/settings',
+            'icon' => 'fas fa-fw fa-user',
+        ],
+        
+        [
+            'text' => 'Cliente',
+            'url' => 'customers',
+            'icon' => 'fas fa-fw fa-user',
+        ],
+
+        [
+            'text' => 'Proveedor',
+            'url' => 'suppliers',
+            'icon' => 'fas fa-fw fa-user',
+        ],
+
+        [
+            'text' => 'Categoria',
+            'url' => 'categories',
+            'icon' => 'fas fa-fw fa-user',
+        ],
+
         [
             'text' => 'change_password',
             'url' => 'admin/settings',
