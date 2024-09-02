@@ -6,23 +6,20 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('receipts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('record_id')->constrained('records')->onDelete('cascade');
-            $table->date('fecha_emision'); 
-            $table->decimal('monto', 10, 2);
+            $table->string('receipt_type');
+            $table->string('series')->nullable();
+            $table->string('number');
+            $table->date('issue_date');
+            $table->decimal('amount', 10, 2);
             $table->timestamps();
+
+            $table->foreignId('record_id')->constrained('records')->onDelete('cascade');
         });
     }
-
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('receipts');
