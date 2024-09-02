@@ -3,62 +3,48 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Receipt;
 
 class ReceiptController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $receipts = Receipt::all();
+        return view('receipts.index', compact('receipts'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('receipts.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        Receipt::create($request->all());
+        return redirect()->route('receipts.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        //
+        $receipt = Receipt::findOrFail($id);
+        return view('receipts.show', compact('receipt'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Receipt $receipt)
     {
-        //
+        return view('receipts.edit', compact('receipt'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
+        $receipt = Receipt::findOrFail($id);
+        $receipt->update($request->all());
+        return redirect()->route('receipts.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Receipt $receipt)
     {
-        //
+        $receipt->delete();
+        return redirect()->route('receipts.index')->with('success', 'El Recibo fue eliminado correctamente');
     }
 }

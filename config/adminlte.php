@@ -352,6 +352,16 @@ return [
             'url' => 'categories',
             'icon' => 'fas fa-fw fa-user',
         ],
+        [
+            'text' => 'Registro',
+            'url' => 'records',
+            'icon' => 'fas fa-fw fa-user',
+        ],
+        [
+            'text' => 'Comprobante',
+            'url' => 'receipts',
+            'icon' => 'fas fa-fw fa-user',
+        ],
 
         [
             'text' => 'change_password',

@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\ReceiptController;
+use App\Http\Controllers\RecordController;
 use App\Http\Controllers\SupplierController;
 
 
@@ -27,3 +29,5 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::resource('categories', CategoryController::class);
 Route::resource('customers', CustomerController::class);
 Route::resource('suppliers', SupplierController::class);
+Route::resource('records', RecordController::class);
+Route::resource('receipts', ReceiptController::class);
