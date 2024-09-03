@@ -320,7 +320,7 @@ return [
 
         [
             'text' => 'profile',
-            'url' => 'admin/settings',
+            'url' => 'admin/users',
             'icon' => 'fas fa-fw fa-user',
         ],
         [

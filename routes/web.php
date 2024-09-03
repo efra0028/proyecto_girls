@@ -9,7 +9,7 @@ use App\Http\Controllers\RecordController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\RecordDetailController;
-
+use App\Http\Controllers\Admin\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +29,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+route::get('/admin/users', [UserController::class, 'index'])->name('admin.users');
 Route::resource('products', ProductController::class);
 Route::resource('categories', CategoryController::class);
 Route::resource('customers', CustomerController::class);
