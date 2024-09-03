@@ -326,17 +326,17 @@ return [
         [
             'text' => 'Cliente',
             'url' => 'customers',
-            'icon' => 'fas fa-fw fa-user',
+            'icon' => 'fas fa-users',
         ],
         [
             'text' => 'Productos',
             'url' => 'products',
-            'icon' => 'fas fa-fw fa-user',
+            'icon' => 'fa-solid fa-table',
         ],
         [
             'text' => 'Proveedor',
             'url' => 'suppliers',
-            'icon' => 'fas fa-fw fa-user',
+            'icon' => 'fas fa-fw fa-truck',
         ],
 
         [
@@ -347,7 +347,7 @@ return [
         [
             'text' => 'Ventas',
             'url' => 'records',
-            'icon' => 'fas fa-fw fa-user',
+            'icon' => 'fas fa-cash-register',
         ],
         [
             'text' => 'Detalle de Ventas',
@@ -357,7 +357,7 @@ return [
         [
             'text' => 'Inventario',
             'url' => 'inventories',
-            'icon' => 'fas fa-fw fa-user',
+            'icon' => 'fas fa-fw fa-boxes',
         ],
         [
             'text' => 'Recibos',

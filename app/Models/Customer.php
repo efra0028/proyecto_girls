@@ -22,4 +22,5 @@ class Customer extends Model
     public function records(){
         return $this->hasMany(Record::class, 'client_id');
     }
+
 }

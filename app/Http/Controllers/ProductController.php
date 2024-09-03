@@ -26,19 +26,24 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+
+        $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric',
             'stock' => 'required|integer',
             'category_id' => 'required|exists:categories,id',
             'supplier_id' => 'required|exists:suppliers,id',
-            'image' => 'nullable|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'size' => 'required|string|max:50',
             'color' => 'required|string|max:50',
             'details' => 'nullable|string',
         ]);
 
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+            $validatedData['image'] = $imagePath;
+        }
         Product::create($request->all());
 
         return redirect()->route('products.index')->with('success', 'Product created successfully.');
@@ -63,7 +68,7 @@ class ProductController extends Controller
             'stock' => 'required|integer',
             'category_id' => 'required|exists:categories,id',
             'supplier_id' => 'required|exists:suppliers,id',
-            'image' => 'nullable|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'size' => 'required|string|max:50',
             'color' => 'required|string|max:50',
             'details' => 'nullable|string',

@@ -13,7 +13,7 @@ class Product extends Model
         'price',
         'stock',
         'category_id',
-        'provider_id',
+        'supplier_id',
         'image',
         'size',
         'color',

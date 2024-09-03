@@ -18,6 +18,7 @@
                 <th>Stock</th>
                 <th>Categoría</th>
                 <th>Proveedor</th>
+                <th>Imagenes</th>
                 <th>Tamaño</th>
                 <th>Color</th>
                 <th>Acciones</th>
@@ -33,6 +34,9 @@
                     <td>{{ $product->stock }}</td>
                     <td>{{ $product->category->name }}</td>
                     <td>{{ $product->supplier->name }}</td>
+                    <td class="text-center">
+                        <img src="{{ asset('storage/' .$product->image) }}" alt="{{ $product->name }}" class="img-fluid" style="max-width: 100px; max-height: 100px;">
+                    </td>
                     <td>{{ $product->size }}</td>
                     <td>{{ $product->color }}</td>
                     <td>

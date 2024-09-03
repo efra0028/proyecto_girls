@@ -23,8 +23,8 @@
             @foreach ($records as $record)
                 <tr>
                     <td class="text-center">{{ $record->id }}</td>
-                    <td class="text-center">{{ $record->customer->name }}</td>
                     <td class="text-center">{{ $record->product->name }}</td>
+                    <td>{{ $record->customer ? $record->customer->name : 'N/A' }}</td>
                     <td class="text-center">{{ $record->record_date }}</td>
                     <td class="text-center">{{ $record->total }}</td>
                     <td class="text-center">

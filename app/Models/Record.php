@@ -9,7 +9,8 @@ class Record extends Model
 {
 
     protected $fillable = [
-        'client_id',
+        'customer_id',
+        'product_id',
         'record_date',
         'total',
     ];
@@ -22,5 +23,13 @@ class Record extends Model
     public function recordDetail()
     {
         return $this->hasMany(RecordDetail::class, 'record_id');
+    }
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
+    public function product() // Define la relación con Product
+    {
+        return $this->belongsTo(Product::class); // Cambia esto si la relación es diferente
     }
 }

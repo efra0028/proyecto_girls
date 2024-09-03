@@ -27,14 +27,19 @@
         </div>
 
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="form-group">
                     <label for="stock">Stock</label>
                     <input type="number" id="stock" name="stock" class="form-control" value="{{ old('stock') }}" required>
                 </div>
             </div>
-
-            <div class="col-md-6">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="description">Descripcion</label>
+                    <input type="text" id="description" name="description" class="form-control" value="{{ old('description') }}" required>
+                </div>
+            </div>
+            <div class="col-md-4">
                 <div class="form-group">
                     <label for="category_id">Categoría</label>
                     <select id="category_id" name="category_id" class="form-control" required>
@@ -61,8 +66,10 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="image">Imagen</label>
-                    <input type="file" id="image" name="image" class="form-control">
+                    <input type="file" id="image" name="image" class="form-control" accept="image/*" onchange="previewImage(event)" required>
+                    <img id="preview" src="#" alt="Vista previa de la imagen" style="display: none; margin-top: 10px; max-width: 100%; height: auto;">
                 </div>
+
             </div>
         </div>
 
@@ -81,7 +88,7 @@
             <textarea id="details" name="details" class="form-control">{{ old('details') }}</textarea>
         </div>
 
-        <button type="submit" class="btn btn-primary">Guardar</button>
+        <button type="submit" class="btn btn-primary" class="submiBtn">Guardar</button>
         <a href="{{ route('products.index') }}" class="btn btn-secondary">Cancelar</a>
     </form>
 @stop
@@ -106,5 +113,23 @@
                 }
             });
         });
+    </script>
+@stop
+@section('js')
+    <script>
+        function previewImage(event) {
+            var preview = document.getElementById('preview');
+            var file = event.target.files[0];
+            var reader = new FileReader();
+
+            reader.onload = function() {
+                preview.src = reader.result;
+                preview.style.display = 'block';
+                preview.style.maxHeight = '200px'; // Ajusta la altura de la imagen
+                preview.style.maxWidth = '200px'; // Ajusta el ancho de la imagen
+            };
+
+            reader.readAsDataURL(file);
+        }
     </script>
 @stop
