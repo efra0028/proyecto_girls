@@ -15,6 +15,7 @@
                 <th class="text-center">Cliente</th>
                 <th class="text-center">Producto</th>
                 <th class="text-center">Fecha</th>
+                <th class="text-center">Cantidad</th>
                 <th class="text-center">Total</th>
                 <th class="text-center">Acciones</th>
             </tr>
@@ -26,6 +27,7 @@
                     <td class="text-center">{{ $record->product->name }}</td>
                     <td>{{ $record->customer ? $record->customer->name : 'N/A' }}</td>
                     <td class="text-center">{{ $record->record_date }}</td>
+                    <td class="text-center">{{ $record->quantity }}</td>
                     <td class="text-center">{{ $record->total }}</td>
                     <td class="text-center">
                         <a href="{{ route('records.edit', $record) }}" class="btn btn-dark btn-sm"><i class="fas fa-edit"></i></a>

@@ -12,6 +12,7 @@ class Record extends Model
         'customer_id',
         'product_id',
         'record_date',
+        'quantity',
         'total',
     ];
 
@@ -20,9 +21,10 @@ class Record extends Model
         return $this->belongsTo(Client::class, 'client_id');
     }
 
-    public function recordDetail()
+     // Definir la relación con RecordDetail
+    public function recordDetails()
     {
-        return $this->hasMany(RecordDetail::class, 'record_id');
+        return $this->hasMany(RecordDetail::class);
     }
     public function customer()
     {
@@ -30,6 +32,6 @@ class Record extends Model
     }
     public function product() // Define la relación con Product
     {
-        return $this->belongsTo(Product::class); // Cambia esto si la relación es diferente
+        return $this->belongsTo(Product::class);
     }
 }

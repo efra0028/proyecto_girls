@@ -86,8 +86,8 @@ return [
     'auth_logo' => [
         'enabled' => true,
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
-            'alt' => 'Auth Logo',
+            'path' => '/vendor/adminlte/dist/img/GirlsCity.png',
+            'alt' => 'logo Girls',
             'class' => '',
             'width' => 50,
             'height' => 50,
@@ -113,8 +113,8 @@ return [
         'enabled' => true,
         'mode' => 'fullscreen',
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
-            'alt' => 'AdminLTE Preloader Image',
+            'path' => 'vendor/adminlte/dist/img/GirlsCity.png',
+            'alt' => 'GirlsCity',
             'effect' => 'animation__shake',
             'width' => 60,
             'height' => 60,
@@ -320,7 +320,7 @@ return [
 
         [
             'text' => 'profile',
-            'url' => 'admin/settings',
+            'url' => 'admin/users',
             'icon' => 'fas fa-fw fa-user',
         ],
         [
@@ -331,7 +331,7 @@ return [
         [
             'text' => 'Productos',
             'url' => 'products',
-            'icon' => 'fa-solid fa-table',
+            'icon' => 'fas fa-box-open',
         ],
         [
             'text' => 'Proveedor',
@@ -342,7 +342,7 @@ return [
         [
             'text' => 'Categoria',
             'url' => 'categories',
-            'icon' => 'fas fa-fw fa-user',
+            'icon' => 'fas fa-list-alt',
         ],
         [
             'text' => 'Ventas',
@@ -352,7 +352,7 @@ return [
         [
             'text' => 'Detalle de Ventas',
             'url' => 'record_details',
-            'icon' => 'fas fa-fw fa-user',
+            'icon' => 'fas fa-file-invoice-dollar',
         ],
         [
             'text' => 'Inventario',
@@ -362,66 +362,12 @@ return [
         [
             'text' => 'Recibos',
             'url' => 'receipts',
-            'icon' => 'fas fa-fw fa-user',
+            'icon' => 'fas fa-receipt',
         ],
         [
             'text' => 'change_password',
             'url' => 'admin/settings',
             'icon' => 'fas fa-fw fa-lock',
-        ],
-        [
-            'text' => 'multilevel',
-            'icon' => 'fas fa-fw fa-share',
-            'submenu' => [
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
-                ],
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                        ],
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
-                ],
-            ],
-        ],
-        ['header' => 'labels'],
-        [
-            'text' => 'important',
-            'icon_color' => 'red',
-            'url' => '#',
-        ],
-        [
-            'text' => 'warning',
-            'icon_color' => 'yellow',
-            'url' => '#',
-        ],
-        [
-            'text' => 'information',
-            'icon_color' => 'cyan',
-            'url' => '#',
         ],
     ],
 

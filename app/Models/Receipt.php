@@ -12,7 +12,7 @@ class Receipt extends Model
     protected $table = 'receipts';
 
     protected $fillable = [
-        'purchase_id',
+        'record_id',
         'receipt_type',
         'series',
         'number',

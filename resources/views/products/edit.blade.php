@@ -18,15 +18,7 @@
                     <input type="text" id="name" name="name" class="form-control" value="{{ $product->name }}" required>
                 </div>
             </div>
-
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="description">Descripción</label>
-                    <textarea id="description" name="description" class="form-control" required>{{ $product->description }}</textarea>
-                </div>
-            </div>
         </div>
-
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">

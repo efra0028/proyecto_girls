@@ -7,13 +7,14 @@
 @stop
 
 @section('content')
+    @role('admin')
     <a href="{{ route('products.create') }}" class="btn btn-primary mb-3"><i class="fas fa-plus-circle"></i> Nuevo Producto</a>
+    @endrole
     <table id="products" class="table table-bordered shadow-lg mt-12">
         <thead class="text-white" style="background-color: #515E78;">
             <tr>
                 <th>ID</th>
                 <th>Nombre</th>
-                <th>Descripción</th>
                 <th>Precio</th>
                 <th>Stock</th>
                 <th>Categoría</th>
@@ -29,7 +30,6 @@
                 <tr>
                     <td>{{ $product->id }}</td>
                     <td>{{ $product->name }}</td>
-                    <td>{{ $product->description }}</td>
                     <td>{{ $product->price }}</td>
                     <td>{{ $product->stock }}</td>
                     <td>{{ $product->category->name }}</td>

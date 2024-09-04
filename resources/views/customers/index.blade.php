@@ -13,12 +13,10 @@
             <tr>
                 <td width="15px">Nº</td>
                 <th class="text-center">Nombre</th>
-                <th class="text-center">Correo</th>
                 <th class="text-center">Telefono</th>
                 <th class="text-center">Direccion</th>
                 <th class="text-center">Ciudad</th>
                 <th class="text-center">Pais</th>
-                <th class="text-center">Fecha de Nacimiento</th>
                 <th class="text-center">Genero</th>
                 <th class="text-center">Acciones</th>
             </tr>
@@ -28,12 +26,10 @@
                 <tr>
                     <td class="text-center">{{ $customer->id }}</td>
                     <td class="text-center">{{ $customer->name }}</td>
-                    <td class="text-center">{{ $customer->email }}</td>
                     <td class="text-center">{{ $customer->phone }}</td>
                     <td class="text-center">{{ $customer->address }}</td>
                     <td class="text-center">{{ $customer->city }}</td>
                     <td class="text-center">{{ $customer->country }}</td>
-                    <td class="text-center">{{ $customer->birth_date }}</td>
                     <td class="text-center">{{ ucfirst ($customer->gender== 'male' ? 'Masculino' : 'Femenino') }}</td>
                     <td class="text-center">
                     <a href="{{ route('customers.edit', $customer) }}" class="btn btn-dark btn-sm"><i class="fas fa-edit"></i> </a>
@@ -72,6 +68,6 @@
                             }
                         }
                     });
-                }); 
+                });
     </script>
 @endsection

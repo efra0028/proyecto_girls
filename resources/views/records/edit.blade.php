@@ -42,7 +42,14 @@
                     <input type="date" id="record_date" name="record_date" class="form-control" value="{{ $record->record_date }}" required>
                 </div>
             </div>
-
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="quantity">Cantidad</label>
+                    <input type="number" id="quantity" name="quantity" class="form-control"
+                           value="{{ old('quantity', 1) }}"
+                           min="1" required>
+                </div>
+            </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="total">Total</label>

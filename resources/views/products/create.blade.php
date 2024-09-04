@@ -27,19 +27,13 @@
         </div>
 
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label for="stock">Stock</label>
                     <input type="number" id="stock" name="stock" class="form-control" value="{{ old('stock') }}" required>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="description">Descripcion</label>
-                    <input type="text" id="description" name="description" class="form-control" value="{{ old('description') }}" required>
-                </div>
-            </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label for="category_id">Categoría</label>
                     <select id="category_id" name="category_id" class="form-control" required>
