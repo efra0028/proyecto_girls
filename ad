@@ -1,0 +1,411 @@
+[1mdiff --git a/app/Http/Controllers/ProductController.php b/app/Http/Controllers/ProductController.php[m
+[1mindex bc2740e..dce0e34 100644[m
+[1m--- a/app/Http/Controllers/ProductController.php[m
+[1m+++ b/app/Http/Controllers/ProductController.php[m
+[36m@@ -26,19 +26,24 @@[m [mpublic function create()[m
+ [m
+     public function store(Request $request)[m
+     {[m
+[31m-        $request->validate([[m
+[32m+[m
+[32m+[m[32m        $validatedData = $request->validate([[m
+             'name' => 'required|string|max:255',[m
+             'description' => 'required|string',[m
+             'price' => 'required|numeric',[m
+             'stock' => 'required|integer',[m
+             'category_id' => 'required|exists:categories,id',[m
+             'supplier_id' => 'required|exists:suppliers,id',[m
+[31m-            'image' => 'nullable|string|max:255',[m
+[32m+[m[32m            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',[m
+             'size' => 'required|string|max:50',[m
+             'color' => 'required|string|max:50',[m
+             'details' => 'nullable|string',[m
+         ]);[m
+ [m
+[32m+[m[32m        if ($request->hasFile('image')) {[m
+[32m+[m[32m            $imagePath = $request->file('image')->store('images', 'public');[m
+[32m+[m[32m            $validatedData['image'] = $imagePath;[m
+[32m+[m[32m        }[m
+         Product::create($request->all());[m
+ [m
+         return redirect()->route('products.index')->with('success', 'Product created successfully.');[m
+[36m@@ -63,7 +68,7 @@[m [mpublic function update(Request $request, Product $product)[m
+             'stock' => 'required|integer',[m
+             'category_id' => 'required|exists:categories,id',[m
+             'supplier_id' => 'required|exists:suppliers,id',[m
+[31m-            'image' => 'nullable|string|max:255',[m
+[32m+[m[32m            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',[m
+             'size' => 'required|string|max:50',[m
+             'color' => 'required|string|max:50',[m
+             'details' => 'nullable|string',[m
+[1mdiff --git a/app/Models/Customer.php b/app/Models/Customer.php[m
+[1mindex 2520293..a70a74e 100644[m
+[1m--- a/app/Models/Customer.php[m
+[1m+++ b/app/Models/Customer.php[m
+[36m@@ -22,4 +22,5 @@[m [mclass Customer extends Model[m
+     public function records(){[m
+         return $this->hasMany(Record::class, 'client_id');[m
+     }[m
+[32m+[m
+ }[m
+[1mdiff --git a/app/Models/Product.php b/app/Models/Product.php[m
+[1mindex 7a627ee..605cf20 100644[m
+[1m--- a/app/Models/Product.php[m
+[1m+++ b/app/Models/Product.php[m
+[36m@@ -13,7 +13,7 @@[m [mclass Product extends Model[m
+         'price',[m
+         'stock',[m
+         'category_id',[m
+[31m-        'provider_id',[m
+[32m+[m[32m        'supplier_id',[m
+         'image',[m
+         'size',[m
+         'color',[m
+[1mdiff --git a/app/Models/Record.php b/app/Models/Record.php[m
+[1mindex 3de7979..e05bd28 100644[m
+[1m--- a/app/Models/Record.php[m
+[1m+++ b/app/Models/Record.php[m
+[36m@@ -9,7 +9,8 @@[m [mclass Record extends Model[m
+ {[m
+ [m
+     protected $fillable = [[m
+[31m-        'client_id',[m
+[32m+[m[32m        'customer_id',[m
+[32m+[m[32m        'product_id',[m
+         'record_date',[m
+         'total',[m
+     ];[m
+[36m@@ -23,4 +24,12 @@[m [mpublic function recordDetail()[m
+     {[m
+         return $this->hasMany(RecordDetail::class, 'record_id');[m
+     }[m
+[32m+[m[32m    public function customer()[m
+[32m+[m[32m    {[m
+[32m+[m[32m        return $this->belongsTo(Customer::class);[m
+[32m+[m[32m    }[m
+[32m+[m[32m    public function product() // Define la relación con Product[m
+[32m+[m[32m    {[m
+[32m+[m[32m        return $this->belongsTo(Product::class); // Cambia esto si la relación es diferente[m
+[32m+[m[32m    }[m
+ }[m
+[1mdiff --git a/composer.json b/composer.json[m
+[1mindex 189f9f4..1c97b36 100644[m
+[1m--- a/composer.json[m
+[1m+++ b/composer.json[m
+[36m@@ -7,6 +7,7 @@[m
+     "require": {[m
+         "php": "^8.1",[m
+         "guzzlehttp/guzzle": "^7.2",[m
+[32m+[m[32m        "intervention/image": "^3.8",[m
+         "jeroennoten/laravel-adminlte": "^3.13",[m
+         "laravel/framework": "^10.10",[m
+         "laravel/sanctum": "^3.3",[m
+[1mdiff --git a/composer.lock b/composer.lock[m
+[1mindex 616125e..a155583 100644[m
+[1m--- a/composer.lock[m
+[1m+++ b/composer.lock[m
+[36m@@ -4,7 +4,7 @@[m
+         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",[m
+         "This file is @generated automatically"[m
+     ],[m
+[31m-    "content-hash": "2cc694cea3b051cfe7f800fe5799fe6e",[m
+[32m+[m[32m    "content-hash": "07c6b70705ed68f582b99a21d3ca12f3",[m
+     "packages": [[m
+         {[m
+             "name": "almasaeed2010/adminlte",[m
+[36m@@ -1093,6 +1093,146 @@[m
+             ],[m
+             "time": "2023-12-03T19:50:20+00:00"[m
+         },[m
+[32m+[m[32m        {[m
+[32m+[m[32m            "name": "intervention/gif",[m
+[32m+[m[32m            "version": "4.1.0",[m
+[32m+[m[32m            "source": {[m
+[32m+[m[32m                "type": "git",[m
+[32m+[m[32m                "url": "https://github.com/Intervention/gif.git",[m
+[32m+[m[32m                "reference": "3a2b5f8a8856e8877cdab5c47e51aab2d4cb23a3"[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "dist": {[m
+[32m+[m[32m                "type": "zip",[m
+[32m+[m[32m                "url": "https://api.github.com/repos/Intervention/gif/zipball/3a2b5f8a8856e8877cdab5c47e51aab2d4cb23a3",[m
+[32m+[m[32m                "reference": "3a2b5f8a8856e8877cdab5c47e51aab2d4cb23a3",[m
+[32m+[m[32m                "shasum": ""[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "require": {[m
+[32m+[m[32m                "php": "^8.1"[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "require-dev": {[m
+[32m+[m[32m                "phpstan/phpstan": "^1",[m
+[32m+[m[32m                "phpunit/phpunit": "^10.0",[m
+[32m+[m[32m                "slevomat/coding-standard": "~8.0",[m
+[32m+[m[32m                "squizlabs/php_codesniffer": "^3.8"[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "type": "library",[m
+[32m+[m[32m            "autoload": {[m
+[32m+[m[32m                "psr-4": {[m
+[32m+[m[32m                    "Intervention\\Gif\\": "src"[m
+[32m+[m[32m                }[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "notification-url": "https://packagist.org/downloads/",[m
+[32m+[m[32m            "license": [[m
+[32m+[m[32m                "MIT"[m
+[32m+[m[32m            ],[m
+[32m+[m[32m            "authors": [[m
+[32m+[m[32m                {[m
+[32m+[m[32m                    "name": "Oliver Vogel",[m
+[32m+[m[32m                    "email": "oliver@intervention.io",[m
+[32m+[m[32m                    "homepage": "https://intervention.io/"[m
+[32m+[m[32m                }[m
+[32m+[m[32m            ],[m
+[32m+[m[32m            "description": "Native PHP GIF Encoder/Decoder",[m
+[32m+[m[32m            "homepage": "https://github.com/intervention/gif",[m
+[32m+[m[32m            "keywords": [[m
+[32m+[m[32m                "animation",[m
+[32m+[m[32m                "gd",[m
+[32m+[m[32m                "gif",[m
+[32m+[m[32m                "image"[m
+[32m+[m[32m            ],[m
+[32m+[m[32m            "support": {[m
+[32m+[m[32m                "issues": "https://github.com/Intervention/gif/issues",[m
+[32m+[m[32m                "source": "https://github.com/Intervention/gif/tree/4.1.0"[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "funding": [[m
+[32m+[m[32m                {[m
+[32m+[m[32m                    "url": "https://paypal.me/interventionio",[m
+[32m+[m[32m                    "type": "custom"[m
+[32m+[m[32m                },[m
+[32m+[m[32m                {[m
+[32m+[m[32m                    "url": "https://github.com/Intervention",[m
+[32m+[m[32m                    "type": "github"[m
+[32m+[m[32m                }[m
+[32m+[m[32m            ],[m
+[32m+[m[32m            "time": "2024-03-26T17:23:47+00:00"[m
+[32m+[m[32m        },[m
+[32m+[m[32m        {[m
+[32m+[m[32m            "name": "intervention/image",[m
+[32m+[m[32m            "version": "3.8.0",[m
+[32m+[m[32m            "source": {[m
+[32m+[m[32m                "type": "git",[m
+[32m+[m[32m                "url": "https://github.com/Intervention/image.git",[m
+[32m+[m[32m                "reference": "1786ad5e1789050939d73cd195de4b8eaeeb34ed"[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "dist": {[m
+[32m+[m[32m                "type": "zip",[m
+[32m+[m[32m                "url": "https://api.github.com/repos/Intervention/image/zipball/1786ad5e1789050939d73cd195de4b8eaeeb34ed",[m
+[32m+[m[32m                "reference": "1786ad5e1789050939d73cd195de4b8eaeeb34ed",[m
+[32m+[m[32m                "shasum": ""[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "require": {[m
+[32m+[m[32m                "ext-mbstring": "*",[m
+[32m+[m[32m                "intervention/gif": "^4.1",[m
+[32m+[m[32m                "php": "^8.1"[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "require-dev": {[m
+[32m+[m[32m                "mockery/mockery": "^1.6",[m
+[32m+[m[32m                "phpstan/phpstan": "^1",[m
+[32m+[m[32m                "phpunit/phpunit": "^10.0",[m
+[32m+[m[32m                "slevomat/coding-standard": "~8.0",[m
+[32m+[m[32m                "squizlabs/php_codesniffer": "^3.8"[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "suggest": {[m
+[32m+[m[32m                "ext-exif": "Recommended to be able to read EXIF data properly."[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "type": "library",[m
+[32m+[m[32m            "autoload": {[m
+[32m+[m[32m                "psr-4": {[m
+[32m+[m[32m                    "Intervention\\Image\\": "src"[m
+[32m+[m[32m                }[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "notification-url": "https://packagist.org/downloads/",[m
+[32m+[m[32m            "license": [[m
+[32m+[m[32m                "MIT"[m
+[32m+[m[32m            ],[m
+[32m+[m[32m            "authors": [[m
+[32m+[m[32m                {[m
+[32m+[m[32m                    "name": "Oliver Vogel",[m
+[32m+[m[32m                    "email": "oliver@intervention.io",[m
+[32m+[m[32m                    "homepage": "https://intervention.io/"[m
+[32m+[m[32m                }[m
+[32m+[m[32m            ],[m
+[32m+[m[32m            "description": "PHP image manipulation",[m
+[32m+[m[32m            "homepage": "https://image.intervention.io/",[m
+[32m+[m[32m            "keywords": [[m
+[32m+[m[32m                "gd",[m
+[32m+[m[32m                "image",[m
+[32m+[m[32m                "imagick",[m
+[32m+[m[32m                "resize",[m
+[32m+[m[32m                "thumbnail",[m
+[32m+[m[32m                "watermark"[m
+[32m+[m[32m            ],[m
+[32m+[m[32m            "support": {[m
+[32m+[m[32m                "issues": "https://github.com/Intervention/image/issues",[m
+[32m+[m[32m                "source": "https://github.com/Intervention/image/tree/3.8.0"[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "funding": [[m
+[32m+[m[32m                {[m
+[32m+[m[32m                    "url": "https://paypal.me/interventionio",[m
+[32m+[m[32m                    "type": "custom"[m
+[32m+[m[32m                },[m
+[32m+[m[32m                {[m
+[32m+[m[32m                    "url": "https://github.com/Intervention",[m
+[32m+[m[32m                    "type": "github"[m
+[32m+[m[32m                },[m
+[32m+[m[32m                {[m
+[32m+[m[32m                    "url": "https://ko-fi.com/interventionphp",[m
+[32m+[m[32m                    "type": "ko_fi"[m
+[32m+[m[32m                }[m
+[32m+[m[32m            ],[m
+[32m+[m[32m            "time": "2024-08-16T14:57:26+00:00"[m
+[32m+[m[32m        },[m
+         {[m
+             "name": "jeroennoten/laravel-adminlte",[m
+             "version": "v3.13.0",[m
+[1mdiff --git a/config/adminlte.php b/config/adminlte.php[m
+[1mindex bd66b21..06962a3 100644[m
+[1m--- a/config/adminlte.php[m
+[1m+++ b/config/adminlte.php[m
+[36m@@ -326,17 +326,17 @@[m
+         [[m
+             'text' => 'Cliente',[m
+             'url' => 'customers',[m
+[31m-            'icon' => 'fas fa-fw fa-user',[m
+[32m+[m[32m            'icon' => 'fas fa-users',[m
+         ],[m
+         [[m
+             'text' => 'Productos',[m
+             'url' => 'products',[m
+[31m-            'icon' => 'fas fa-fw fa-user',[m
+[32m+[m[32m            'icon' => 'fa-solid fa-table',[m
+         ],[m
+         [[m
+             'text' => 'Proveedor',[m
+             'url' => 'suppliers',[m
+[31m-            'icon' => 'fas fa-fw fa-user',[m
+[32m+[m[32m            'icon' => 'fas fa-fw fa-truck',[m
+         ],[m
+ [m
+         [[m
+[36m@@ -347,7 +347,7 @@[m
+         [[m
+             'text' => 'Ventas',[m
+             'url' => 'records',[m
+[31m-            'icon' => 'fas fa-fw fa-user',[m
+[32m+[m[32m            'icon' => 'fas fa-cash-register',[m
+         ],[m
+         [[m
+             'text' => 'Detalle de Ventas',[m
+[36m@@ -357,7 +357,7 @@[m
+         [[m
+             'text' => 'Inventario',[m
+             'url' => 'inventories',[m
+[31m-            'icon' => 'fas fa-fw fa-user',[m
+[32m+[m[32m            'icon' => 'fas fa-fw fa-boxes',[m
+         ],[m
+         [[m
+             'text' => 'Recibos',[m
+[1mdiff --git a/resources/views/products/create.blade.php b/resources/views/products/create.blade.php[m
+[1mindex 5ac3a60..11cf457 100644[m
+[1m--- a/resources/views/products/create.blade.php[m
+[1m+++ b/resources/views/products/create.blade.php[m
+[36m@@ -27,14 +27,19 @@[m
+         </div>[m
+ [m
+         <div class="row">[m
+[31m-            <div class="col-md-6">[m
+[32m+[m[32m            <div class="col-md-4">[m
+                 <div class="form-group">[m
+                     <label for="stock">Stock</label>[m
+                     <input type="number" id="stock" name="stock" class="form-control" value="{{ old('stock') }}" required>[m
+                 </div>[m
+             </div>[m
+[31m-[m
+[31m-            <div class="col-md-6">[m
+[32m+[m[32m            <div class="col-md-4">[m
+[32m+[m[32m                <div class="form-group">[m
+[32m+[m[32m                    <label for="description">Descripcion</label>[m
+[32m+[m[32m                    <input type="text" id="description" name="description" class="form-control" value="{{ old('description') }}" required>[m
+[32m+[m[32m                </div>[m
+[32m+[m[32m            </div>[m
+[32m+[m[32m            <div class="col-md-4">[m
+                 <div class="form-group">[m
+                     <label for="category_id">Categoría</label>[m
+                     <select id="category_id" name="category_id" class="form-control" required>[m
+[36m@@ -61,8 +66,10 @@[m
+             <div class="col-md-6">[m
+                 <div class="form-group">[m
+                     <label for="image">Imagen</label>[m
+[31m-                    <input type="file" id="image" name="image" class="form-control">[m
+[32m+[m[32m                    <input type="file" id="image" name="image" class="form-control" accept="image/*" onchange="previewImage(event)" required>[m
+[32m+[m[32m                    <img id="preview" src="#" alt="Vista previa de la imagen" style="display: none; margin-top: 10px; max-width: 100%; height: auto;">[m
+                 </div>[m
+[32m+[m
+             </div>[m
+         </div>[m
+ [m
+[36m@@ -81,7 +88,7 @@[m
+             <textarea id="details" name="details" class="form-control">{{ old('details') }}</textarea>[m
+         </div>[m
+ [m
+[31m-        <button type="submit" class="btn btn-primary">Guardar</button>[m
+[32m+[m[32m        <button type="submit" class="btn btn-primary" class="submiBtn">Guardar</button>[m
+         <a href="{{ route('products.index') }}" class="btn btn-secondary">Cancelar</a>[m
+     </form>[m
+ @stop[m
+[36m@@ -108,3 +115,21 @@[m
+         });[m
+     </script>[m
+ @stop[m
+[32m+[m[32m@section('js')[m
+[32m+[m[32m    <script>[m
+[32m+[m[32m        function previewImage(event) {[m
+[32m+[m[32m            var preview = document.getElementById('preview');[m
+[32m+[m[32m            var file = event.target.files[0];[m
+[32m+[m[32m            var reader = new FileReader();[m
+[32m+[m
+[32m+[m[32m            reader.onload = function() {[m
+[32m+[m[32m                preview.src = reader.result;[m
+[32m+[m[32m                preview.style.display = 'block';[m
+[32m+[m[32m                preview.style.maxHeight = '200px'; // Ajusta la altura de la imagen[m
+[32m+[m[32m                preview.style.maxWidth = '200px'; // Ajusta el ancho de la imagen[m
+[32m+[m[32m            };[m
+[32m+[m
+[32m+[m[32m            reader.readAsDataURL(file);[m
+[32m+[m[32m        }[m
+[32m+[m[32m    </script>[m
+[32m+[m[32m@stop[m
+[1mdiff --git a/resources/views/products/index.blade.php b/resources/views/products/index.blade.php[m
+[1mindex 49949fc..6177456 100644[m
+[1m--- a/resources/views/products/index.blade.php[m
+[1m+++ b/resources/views/products/index.blade.php[m
+[36m@@ -18,6 +18,7 @@[m
+                 <th>Stock</th>[m
+                 <th>Categoría</th>[m
+                 <th>Proveedor</th>[m
+[32m+[m[32m                <th>Imagenes</th>[m
+                 <th>Tamaño</th>[m
+                 <th>Color</th>[m
+                 <th>Acciones</th>[m
+[36m@@ -33,6 +34,9 @@[m
+                     <td>{{ $product->stock }}</td>[m
+                     <td>{{ $product->category->name }}</td>[m
+                     <td>{{ $product->supplier->name }}</td>[m
+[32m+[m[32m                    <td class="text-center">[m
+[32m+[m[32m                        <img src="{{ asset('storage/' .$product->image) }}" alt="{{ $product->name }}" class="img-fluid" style="max-width: 100px; max-height: 100px;">[m
+[32m+[m[32m                    </td>[m
+                     <td>{{ $product->size }}</td>[m
+                     <td>{{ $product->color }}</td>[m
+                     <td>[m
+[1mdiff --git a/resources/views/records/index.blade.php b/resources/views/records/index.blade.php[m
+[1mindex 39ebca4..57d141e 100644[m
+[1m--- a/resources/views/records/index.blade.php[m
+[1m+++ b/resources/views/records/index.blade.php[m
+[36m@@ -23,8 +23,8 @@[m
+             @foreach ($records as $record)[m
+                 <tr>[m
+                     <td class="text-center">{{ $record->id }}</td>[m
+[31m-                    <td class="text-center">{{ $record->customer->name }}</td>[m
+                     <td class="text-center">{{ $record->product->name }}</td>[m
+[32m+[m[32m                    <td>{{ $record->customer ? $record->customer->name : 'N/A' }}</td>[m
+                     <td class="text-center">{{ $record->record_date }}</td>[m
+                     <td class="text-center">{{ $record->total }}</td>[m
+                     <td class="text-center">[m
