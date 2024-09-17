@@ -1,24 +1,5 @@
-@extends('adminlte::page')
-
-@section('title', 'Productos')
-
-@section('content_header')
-    <h1>Listado de Productos</h1>
-@stop
-@section('content')
-    @role('admin')
-    <a href="{{ route('products.create') }}" class="btn btn-primary mb-3"><i class="fas fa-plus-circle"></i> Nuevo Producto</a>
-    @endrole
-
-    <!-- Incluir la tabla de productos desde el componente -->
-    @include('components.productList')
-@stop
-
-
-@section('content')
-    @role('admin')
-    <a href="{{ route('products.create') }}" class="btn btn-primary mb-3"><i class="fas fa-plus-circle"></i> Nuevo Producto</a>
-    @endrole
+<div class="container mx-auto mt-10">
+    <h1 class="text-xl font-bold mb-4">Listado de Productos</h1>
     <table id="products" class="table table-bordered shadow-lg mt-12">
         <thead class="text-white" style="background-color: #515E78;">
             <tr>
@@ -44,7 +25,7 @@
                     <td>{{ $product->category->name }}</td>
                     <td>{{ $product->supplier->name }}</td>
                     <td class="text-center">
-                        <img src="{{ asset('storage/' .$product->image) }}" alt="{{ $product->name }}" class="img-fluid" style="max-width: 100px; max-height: 100px;">
+                        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="img-fluid" style="max-width: 100px; max-height: 100px;">
                     </td>
                     <td>{{ $product->size }}</td>
                     <td>{{ $product->color }}</td>
@@ -63,25 +44,4 @@
             @endforeach
         </tbody>
     </table>
-@stop
-
-@section('js')
-    <script>
-        $(document).ready(function(){
-            $('#products').DataTable({
-                "ordering": false,
-                "language": {
-                    "search": "Buscar",
-                    "lengthMenu": "Mostrar _MENU_ registros por página",
-                    "info": "Mostrando página _PAGE_ de _PAGES_",
-                    "paginate": {
-                        "previous": "Anterior",
-                        "next": "Siguiente",
-                        "first": "Primero",
-                        "last": "Último"
-                    }
-                }
-            });
-        });
-    </script>
-@endsection
+</div>

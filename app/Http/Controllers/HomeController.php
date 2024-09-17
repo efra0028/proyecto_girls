@@ -13,8 +13,11 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('role:admin')->only('adminDashboard');
+        $this->middleware('role:ventas')->only('ventasDashboard');
+        $this->middleware('role:cliente')->only('clientDashboard');
     }
+
 
     /**
      * Show the application dashboard.

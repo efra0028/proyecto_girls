@@ -12,6 +12,10 @@ use Illuminate\Http\Request;
 
 class RecordController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role:ventas');
+    }
 
     public function index()
     {

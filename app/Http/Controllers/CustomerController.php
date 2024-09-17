@@ -7,6 +7,15 @@ use App\Models\Customer;
 
 class CustomerController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role:cliente')->only('profile');
+
+    }
+    public function profile()
+    {
+        // Lógica para mostrar el perfil del cliente
+    }
     public function index()
     {
         $customers = Customer::all();

@@ -1,52 +1,54 @@
 <?php
 
+
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Http\Request;
-
-
+use Illuminate\Auth\Events\Registered;
 
 
 class RegisterController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Register Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
-    | provide this functionality without requiring any additional code.
-    |
-    */
-
-    use RegistersUsers;
-
     /**
-     * Where to redirect users after registration.
+     * Show the registration form.
      *
-     * @var string
+     * @return \Illuminate\View\View
      */
-    protected $redirectTo = '/home';
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function showRegistrationForm()
     {
-        $this->middleware('guest');
+        return view('auth.register'); // Ruta de tu vista de registro
     }
 
     /**
-     * Get a validator for an incoming registration request.
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function register(Request $request)
+    {
+        // Validar los datos del formulario
+        $this->validator($request->all())->validate();
+
+        // Crear el usuario
+        $user = $this->create($request->all());
+
+        // Despachar evento de que el usuario se ha registrado
+        event(new Registered($user));
+
+        // Autenticar al usuario
+        auth()->login($user);
+
+        // Redirigir a la página que desees
+        return redirect()->route('home')->with('status', 'Registro exitoso');
+    }
+
+    /**
+     * Validar los datos del formulario.
      *
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
@@ -61,41 +63,22 @@ class RegisterController extends Controller
     }
 
     /**
-     * Create a new user instance after a valid registration.
+     * Crear un nuevo usuario tras un registro válido.
      *
      * @param  array  $data
      * @return \App\Models\User
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
-    }
+    $user = User::create([
+        'name' => $data['name'],
+        'email' => $data['email'],
+        'password' => Hash::make($data['password']),
+    ]);
 
-    public function register(Request $request)
-    {
-        // Validación del request
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
+    $user->assignRole('cliente'); // Asignar el rol cliente por defecto
 
-        // Creación del usuario
-        $user = User::create([
-            'name' => $validatedData['name'],
-            'email' => $validatedData['email'],
-            'password' => Hash::make($validatedData['password']),
-        ]);
-
-        // Autenticación del usuario recién registrado
-        Auth::login($user);
-
-        // Redirección
-        return redirect()->route('home');
+    return $user;
     }
 
 }
