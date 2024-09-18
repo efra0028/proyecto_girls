@@ -1,4 +1,4 @@
-@extends('adminlte::page')
+{{-- @extends('adminlte::page')
 
 @section('title', 'Nuestros Productos - GirlsCity')
 
@@ -11,8 +11,6 @@
         @foreach($products as $product)
             <div class="col-md-4 mb-4">
                 <div class="card">
-                    {{-- <img src="{{ asset('storage/images/' . $product->image) }}" class="card-img-top" alt="{{ $product->name }}"> --}}
-                    <div class="card-body">
                         <h5 class="card-title">{{ $product->name }}</h5>
                         <p class="card-text"><strong>Precio:</strong> ${{ number_format($product->price, 2) }}</p>
                         <p class="card-text"><strong>Talla:</strong> {{ $product->size }}</p>
@@ -32,4 +30,9 @@
 
 @section('js')
     <script> console.log("Hola, estoy usando el paquete Laravel-AdminLTE!"); </script>
-@stop
+@stop --}}
+
+
+<h1>Hola
+
+</h1>

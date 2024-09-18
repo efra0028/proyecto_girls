@@ -7,6 +7,11 @@ use App\Models\User;
 
 class UserController extends Controller
 {
+    public function dashboard()
+    {
+        return view('admin.dashboard');
+    }
+
     public function index()
     {
         $users = User::all();

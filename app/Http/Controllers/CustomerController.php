@@ -7,6 +7,11 @@ use App\Models\Customer;
 
 class CustomerController extends Controller
 {
+    public function dashboard()
+
+    {
+        return view('customers.dashboard');
+    }
     public function __construct()
     {
         $this->middleware('role:cliente')->only('profile');

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -21,13 +23,6 @@ class LoginController extends Controller
     use AuthenticatesUsers;
 
     /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
-
-    /**
      * Create a new controller instance.
      *
      * @return void
@@ -38,4 +33,28 @@ class LoginController extends Controller
         $this->middleware('auth')->only('logout');
     }
 
+    /**
+     * Handle user authentication and redirection after login.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    protected function authenticated(Request $request, $user)
+{
+    // Verificar qué rol tiene el usuario
+    // dd($user->roles);
+
+    // Redireccionar según el rol del usuario
+    if ($user->hasRole('admin')) {
+        return redirect()->route('admin.dashboard');
+    } elseif ($user->hasRole('cliente')) {
+        return redirect()->route('customers.dashboard');
+    } elseif ($user->hasRole('ventas')) {
+        return redirect()->route('ventas.dashboard');
+    }
+
+    // Redirigir a una página por defecto si no tiene rol
+    return redirect('/');
+}
 }

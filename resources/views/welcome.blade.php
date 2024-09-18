@@ -6,7 +6,7 @@
             @if(auth()->check()) {{-- Verificar si el usuario está autenticado --}}
                 @if(auth()->user()->hasRole('cliente'))
                     <h1>Bienvenido, Cliente!</h1>
-                    <a href="{{ route('client.dashboard') }}">Comprar productos</a>
+                    <a href="{{ route('customers.dashboard') }}">Comprar productos</a>
                 @elseif(auth()->user()->hasRole('admin'))
                     <h1>Bienvenido, Administrador!</h1>
                     <a href="{{ route('admin.dashboard') }}">Administrar negocio</a>

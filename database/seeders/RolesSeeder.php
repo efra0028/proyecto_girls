@@ -17,12 +17,12 @@ class RolesSeeder extends Seeder
 
         // Crear permisos (podrías definir permisos específicos aquí)
         Permission::create(['name' => 'manage users']);
-        Permission::create(['name' => 'manage sales']);
+        Permission::create(['name' => 'manage records']);
         Permission::create(['name' => 'manage products']);
         Permission::create(['name' => 'view landing page']);
 
         // Asignar permisos a los roles
-        $admin->givePermissionTo(['manage users', 'manage sales', 'manage products']);
+        $admin->givePermissionTo(['manage users', 'manage records', 'manage products']);
         $ventas->givePermissionTo(['manage sales', 'manage products']);
         $cliente->givePermissionTo('view landing page');
     }

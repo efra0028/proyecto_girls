@@ -18,6 +18,20 @@ class HomeController extends Controller
         $this->middleware('role:cliente')->only('clientDashboard');
     }
 
+    public function adminDashboard()
+    {
+        return view('admin.dashboard');
+    }
+
+    public function ventasDashboard()
+    {
+        return view('ventas.dashboard');
+    }
+
+    public function clientDashboard()
+    {
+        return view('client.dashboard');
+    }
 
     /**
      * Show the application dashboard.
